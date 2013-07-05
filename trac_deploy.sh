@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ $EUID -ne 0 ]] then
+if [[ $EUID -ne 0 ]]; then
     echo "          !! INFO !!          "
     echo "You must run this as root user"
     exit 1
