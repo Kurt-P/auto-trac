@@ -18,7 +18,7 @@ easy_install $TRAC_INSTALL
 
 ##mkdir /var/trac /var/trac/sites /var/trac/eggs /var/trac/apache
 mkdir -p $TRAC_ROOT/sites $TRAC_ROOT/eggs $TRAC_ROOT/apache
-chown -R www-data $TRAC_ROOT
+##chown -R www-data $TRAC_ROOT
 
 ##Creat your first project
 trac-admin $TRAC_ROOT/sites/$PROJECT initenv
@@ -28,13 +28,15 @@ cp ./trac.wsgi -t $TRAC_ROOT/apache
 
 ##Make a backup of the existing httpd.conf file and copy the new one to the 
 ##/etc/apache2 folder
-cp /etc/apache2/httpd.conf -t /etc/apache2/httpd.conf.bak
+##cp /etc/apache2/httpd.conf -t /etc/apache2/httpd.conf.bak
 cp ./httpd.conf -t /etc/apache2/
 
+echo "\n"
+
 ##User infor the TRAC_ADMIN
-echo -n New User: 
+echo -n "New User: "
 read USER
-echo -n Password: 
+echo -n "Password: "
 read -s PASSWD
 
 ##Creat the .htpasswd file for Trac
@@ -42,4 +44,7 @@ htpasswd -bcm $TRAC_ROOT/.htpasswd $USER $PASSWD
 
 ##Give your new user privilages on Trac
 trac-admin $TRAC_ROOT/sites/$PROJECT permission add $USER TRAC_ADMIN
+
+chown -R www-data $TRAC_ROOT
+service apache2 restart
 
