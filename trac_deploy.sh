@@ -6,15 +6,9 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 
-
 PROJECT='MyProject'
 TRAC_ROOT='/var/trac'
 TRAC_INSTALL='Trac==1.0'
-
-TRAC_APACHE='$TRAC_ROOT/apache'
-TRAC_EGGS='$TRAC_ROOT/eggs'
-TRAC_SITES='$TRAC_ROOT/sites'
-TRAC_WSGI='$TRAC_APACHE/trac.wsgi'
 
 ##Install the packages you need
 apt-get install sqlite3 python-sqlite python-setuptools python-genshi python-pygments apache2 sendmail git subversion python-subversion libapache2-mod-wsgi libapache2-mod-python
@@ -23,10 +17,10 @@ apt-get install sqlite3 python-sqlite python-setuptools python-genshi python-pyg
 easy_install $TRAC_INSTALL
 
 ##mkdir /var/trac /var/trac/sites /var/trac/eggs /var/trac/apache
-mkdir -p $TRAC_SITES $TRAC_EGGS $TRAC_APACHE
+mkdir -p $TRAC_ROOT/sites/ $TRAC_ROOT/eggs/ $TRAC_ROOT/apache/
 
 ##Creat your first project
-trac-admin $TRAC_SITES/$PROJECT initenv
+trac-admin $TRAC_ROOT/sites/$PROJECT initenv
 
 ##Copy the premade WSGI file to the trac root apache folder
 ##There are two wsgi files that can be made, one for making trac use multipul 
@@ -34,9 +28,9 @@ trac-admin $TRAC_SITES/$PROJECT initenv
 ##NOTE: Only one (1) should be uncommented.
 
 ##wsgi for single project (default)
-cp ./trac_single.wsgi $TRAC_WSGI
+cp ./trac_single.wsgi $TRAC_ROOT/apache/trac.wsgi
 ##wsgi for multipul projects
-##cp ./trac_multi.wsgi $TRAC_WSGI
+##cp ./trac_multi.wsgi $TRAC_ROOT/apache/trac.wsgi
 
 ##Make a backup of the existing httpd.conf file and copy the new one to the 
 ##/etc/apache2 folder
@@ -56,7 +50,7 @@ read -s PASSWD
 htpasswd -bcm $TRAC_ROOT/.htpasswd $USER $PASSWD
 
 ##Give your new user privilages on Trac
-trac-admin $TRAC_SITES/$PROJECT permission add $USER TRAC_ADMIN
+trac-admin $TRAC_ROOT/sites/$PROJECT permission add $USER TRAC_ADMIN
 
 chown -R www-data $TRAC_ROOT
 service apache2 restart
