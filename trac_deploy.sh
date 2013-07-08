@@ -15,7 +15,7 @@ TRAC_INSTALL='Trac==1.0'
 #TRAC_INSATLL='Trac==dev'
 
 ##Install the packages you need
-apt-get install sqlite3 python-sqlite python-setuptools python-genshi python-pygments apache2 sendmail git subversion python-subversion libapache2-mod-wsgi libapache2-mod-python
+apt-get install sqlite3 python-sqlite python-setuptools python-genshi python-pygments apache2 sendmail subversion python-subversion libapache2-mod-wsgi libapache2-mod-python
 
 ##Install Trac
 easy_install $TRAC_INSTALL
