@@ -59,5 +59,6 @@ trac-admin $TRAC_ROOT/sites/$PROJECT permission add $USER TRAC_ADMIN
 
 ##Own the $TRAC_ROOT
 chown -R www-data $TRAC_ROOT
+chmod a+w $TRAC_ROOT/sites/$PROJECT/log/trac.log
 ##Restart Apache
 service apache2 restart
