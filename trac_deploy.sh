@@ -57,8 +57,12 @@ unset PASSWD
 ##Give your new user privileges on Trac
 trac-admin $TRAC_ROOT/sites/$PROJECT permission add $USER TRAC_ADMIN
 
+##Make Git-SCM setup a little easier
+chmod 777 $TRAC_HOME/sites/$PROJECT/db
+
 ##Own the $TRAC_ROOT
 chown -R www-data $TRAC_ROOT
 chmod a+w $TRAC_ROOT/sites/$PROJECT/log/trac.log
+
 ##Restart Apache
 service apache2 restart
